@@ -335,6 +335,49 @@ function ImUI:AddCheckbox(config)
     return { Set = function(v) state = v; Check.Text = v and "✓" or "" end, Get = function() return state end }
 end
 
+function ImUI:Add3DView(config)
+    config = config or {}
+    local size = config.Size or UDim2.new(1, -4, 0, 180)
+    local model = config.Model
+
+    local Holder = Create("Frame", {
+        Parent = self.Content,
+        Size = size,
+        BackgroundColor3 = Theme.FrameBg,
+        BorderSizePixel = 0,
+        LayoutOrder = self:_next(),
+    })
+    Create("UICorner", {
+        Parent = Holder,
+        CornerRadius = UDim.new(0, 4)
+    })
+
+    local Viewport = Instance.new("ViewportFrame")
+    Viewport.Size = UDim2.new(1,0,1,0)
+    Viewport.BackgroundTransparency = 1
+    Viewport.Parent = Holder
+
+    local cam = Instance.new("Camera")
+    Viewport.CurrentCamera = cam
+    cam.Parent = Viewport
+
+    if model then
+        local clone = model:Clone()
+        clone.Parent = Viewport
+
+        local cf, size = clone:GetBoundingBox()
+        cam.CFrame = CFrame.new(
+            cf.Position + Vector3.new(0, size.Y/2, size.Z*2),
+            cf.Position
+        )
+
+        game:GetService("RunService").RenderStepped:Connect(function(dt)
+            clone:PivotTo(clone:GetPivot() * CFrame.Angles(0, math.rad(30*dt), 0))
+        end)
+    end
+
+    return Viewport
+end
 --======================================================
 -- SLIDER (ImGui: ince bar, değer sağda inline)
 --======================================================
