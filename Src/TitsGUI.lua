@@ -337,42 +337,53 @@ end
 
 function ImUI:Add3DView(config)
     config = config or {}
-    local size = config.Size or UDim2.new(1, -4, 0, 180)
     local model = config.Model
+    local height = config.Height or 200
 
     local Holder = Create("Frame", {
         Parent = self.Content,
-        Size = size,
+        Size = UDim2.new(1, -4, 0, height),
         BackgroundColor3 = Theme.FrameBg,
         BorderSizePixel = 0,
-        LayoutOrder = self:_next(),
+        LayoutOrder = self:_next()
     })
     Create("UICorner", {
         Parent = Holder,
         CornerRadius = UDim.new(0, 4)
     })
+    Create("UIStroke", {
+        Parent = Holder,
+        Color = Theme.Border,
+        Thickness = 1
+    })
 
-    local Viewport = Instance.new("ViewportFrame")
-    Viewport.Size = UDim2.new(1,0,1,0)
-    Viewport.BackgroundTransparency = 1
-    Viewport.Parent = Holder
+    local Viewport = Create("ViewportFrame", {
+        Parent = Holder,
+        Size = UDim2.new(1, 0, 1, 0),
+        BackgroundTransparency = 1
+    })
 
     local cam = Instance.new("Camera")
-    Viewport.CurrentCamera = cam
     cam.Parent = Viewport
+    Viewport.CurrentCamera = cam
 
     if model then
         local clone = model:Clone()
         clone.Parent = Viewport
 
         local cf, size = clone:GetBoundingBox()
+        local center = cf.Position
+        local dist = math.max(size.X, size.Y, size.Z) * 2
+
         cam.CFrame = CFrame.new(
-            cf.Position + Vector3.new(0, size.Y/2, size.Z*2),
-            cf.Position
+            center + Vector3.new(0, 0, dist),
+            center
         )
 
         game:GetService("RunService").RenderStepped:Connect(function(dt)
-            clone:PivotTo(clone:GetPivot() * CFrame.Angles(0, math.rad(30*dt), 0))
+            clone:PivotTo(
+                clone:GetPivot() * CFrame.Angles(0, math.rad(30 * dt), 0)
+            )
         end)
     end
 
