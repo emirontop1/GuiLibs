@@ -1,4 +1,4 @@
 # TitsGUI (ImStyleUI) 🚀
 
 
-Tits Gui docs👉 [**Click this**](https://github.com/emirontop1/TitsGUI/blob/main/IMGUI-like%20shit/Tits-Example)
+Tits Gui docs👉 [**Click this**](https://github.com/emirontop1/TitsGUI/blob/main/IMGUI-like%20shit/TitsUI_README.md)
