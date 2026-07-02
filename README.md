@@ -1,3 +1,4 @@
 # TitsGUI (ImStyleUI) 🚀
 
-example and docs👉 [**Detaylı Kod Örnekleri İçin Tıklayın (IMGUI-Example.md)**](IMGUI-Example.md)
+
+Tits Gui docs👉 [**Click this**](https://github.com/emirontop1/TitsGUI/blob/main/IMGUI-like%20shit/Tits-Example)
