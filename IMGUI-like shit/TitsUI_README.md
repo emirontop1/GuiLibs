@@ -11,8 +11,8 @@ local TitsUI = loadstring(game:HttpGet("https://raw.githubusercontent.com/emiron
 
 ## Load Build-in Example
 ```lua
-local TitsUI = loadstring(game:HttpGet("https://raw.githubusercontent.com/emirontop1/TitsGUI/refs/heads/main/IMGUI-like%20shit/TitsUI.lua"))()
 _G.Example = true
+local TitsUI = loadstring(game:HttpGet("https://raw.githubusercontent.com/emirontop1/TitsGUI/refs/heads/main/IMGUI-like%20shit/TitsUI.lua"))()
 ```
 ---
 
