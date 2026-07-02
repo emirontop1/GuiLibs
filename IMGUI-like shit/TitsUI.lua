@@ -1429,6 +1429,7 @@ end
 
 function ImUI:AddConsole(config)
     config = config or {}
+    config.MaxLines = config.MaxLines or 150
 
     local ConsoleGui = Create("ScreenGui", {
         Name = "ImUI_Console_" .. tostring(math.random(1,999999)),
@@ -1437,35 +1438,39 @@ function ImUI:AddConsole(config)
         ZIndexBehavior = Enum.ZIndexBehavior.Sibling,
     })
 
-    local width = 380
-    local height = 240
+    local width = config.Width or 400
+    local height = config.Height or 250
 
+    -- Gerçek ImGui Tarzı Keskin Panel
     local Main = Create("Frame", {
         Parent = ConsoleGui,
         Size = UDim2.new(0, width, 0, height),
-        Position = UDim2.new(0.72, 0, 0.5, 0),
+        Position = UDim2.new(0.75, 0, 0.5, 0),
         AnchorPoint = Vector2.new(0.5, 0.5),
         BackgroundColor3 = Theme.WindowBg,
         BorderSizePixel = 0
     })
 
+    -- İnce Sert Border (ImGui Standartı)
     Create("UIStroke", {
         Parent = Main,
         Color = Theme.Border,
-        Thickness = 1
+        Thickness = 1,
+        ApplyStrokeMode = Enum.ApplyStrokeMode.Border
     })
 
+    -- Başlık Çubuğu
     local TitleBar = Create("Frame", {
         Parent = Main,
-        Size = UDim2.new(1,0,0,26),
-        BackgroundColor3 = Theme.TitleBg,
+        Size = UDim2.new(1, 0, 0, 20), -- ImGui tarzı daha dar başlık alanı
+        BackgroundColor3 = Theme.TitleBgActive, -- Aktif pencere rengi
         BorderSizePixel = 0
     })
 
     Create("TextLabel", {
         Parent = TitleBar,
-        Position = UDim2.new(0,8,0,0),
-        Size = UDim2.new(1,-40,1,0),
+        Position = UDim2.new(0, 6, 0, 0),
+        Size = UDim2.new(1, -40, 1, 0),
         BackgroundTransparency = 1,
         Text = config.Title or "Console",
         TextColor3 = Theme.Text,
@@ -1474,30 +1479,31 @@ function ImUI:AddConsole(config)
         TextXAlignment = Enum.TextXAlignment.Left
     })
 
+    -- Sert Köşeli Küçük Kapatma Butonu
     local Close = Create("TextButton", {
         Parent = TitleBar,
-        AnchorPoint = Vector2.new(1,0),
-        Position = UDim2.new(1,-4,0,3),
-        Size = UDim2.new(0,20,0,20),
-        BackgroundColor3 = Color3.fromRGB(170, 60, 60),
+        AnchorPoint = Vector2.new(1, 0),
+        Position = UDim2.new(1, -2, 0, 2),
+        Size = UDim2.new(0, 16, 0, 16),
+        BackgroundColor3 = Color3.fromRGB(150, 40, 40),
         BorderSizePixel = 0,
         Text = "X",
-        TextColor3 = Color3.new(1,1,1),
+        TextColor3 = Color3.new(1, 1, 1),
         Font = Theme.Font,
-        TextSize = Theme.FontSize
+        TextSize = Theme.FontSize - 2
     })
 
     Close.MouseButton1Click:Connect(function()
         ConsoleGui:Destroy()
     end)
 
+    -- Sürükleme Mekanizması
     local dragging = false
     local dragStart
     local startPos
 
     TitleBar.InputBegan:Connect(function(input)
-        if input.UserInputType == Enum.UserInputType.MouseButton1
-        or input.UserInputType == Enum.UserInputType.Touch then
+        if input.UserInputType == Enum.UserInputType.MouseButton1 or input.UserInputType == Enum.UserInputType.Touch then
             dragging = true
             dragStart = input.Position
             startPos = Main.Position
@@ -1505,17 +1511,13 @@ function ImUI:AddConsole(config)
     end)
 
     TitleBar.InputEnded:Connect(function(input)
-        if input.UserInputType == Enum.UserInputType.MouseButton1
-        or input.UserInputType == Enum.UserInputType.Touch then
+        if input.UserInputType == Enum.UserInputType.MouseButton1 or input.UserInputType == Enum.UserInputType.Touch then
             dragging = false
         end
     end)
 
     UserInputService.InputChanged:Connect(function(input)
-        if dragging and (
-            input.UserInputType == Enum.UserInputType.MouseMovement
-            or input.UserInputType == Enum.UserInputType.Touch
-        ) then
+        if dragging and (input.UserInputType == Enum.UserInputType.MouseMovement or input.UserInputType == Enum.UserInputType.Touch) then
             local delta = input.Position - dragStart
             Main.Position = UDim2.new(
                 startPos.X.Scale,
@@ -1526,67 +1528,98 @@ function ImUI:AddConsole(config)
         end
     end)
 
+    -- Terminal / Liste Alanı (Koyu ve İnce Scrollbar)
     local Holder = Create("ScrollingFrame", {
         Parent = Main,
-        Position = UDim2.new(0,0,0,26),
-        Size = UDim2.new(1,0,1,-26),
-        BackgroundColor3 = Theme.FrameBg,
+        Position = UDim2.new(0, 0, 0, 20),
+        Size = UDim2.new(1, 0, 1, -20),
+        BackgroundColor3 = Color3.fromRGB(12, 12, 14), -- Çok koyu iç alan
         BorderSizePixel = 0,
         AutomaticCanvasSize = Enum.AutomaticSize.Y,
         CanvasSize = UDim2.new(),
-        ScrollBarThickness = 4
+        ScrollBarThickness = 3, -- Ultra ince kaydırma çubuğu
+        ScrollBarImageColor3 = Theme.Border
     })
 
-    Create("UIListLayout", {
+    local ListLayout = Create("UIListLayout", {
         Parent = Holder,
-        Padding = UDim.new(0,2)
+        Padding = UDim.new(0, 1), -- Satırlar arası çok dar mesafe (Kompakt görünüm)
+        SortOrder = Enum.SortOrder.LayoutOrder
+    })
+
+    Create("UIPadding", {
+        Parent = Holder,
+        PaddingTop = UDim.new(0, 4),
+        PaddingBottom = UDim.new(0, 4),
+        PaddingLeft = UDim.new(0, 6),
+        PaddingRight = UDim.new(0, 6)
     })
 
     local console = {}
+    local lines = {}
+    local lineCounter = 0
 
     local function getTime()
         return os.date("%H:%M:%S")
     end
 
     local function push(prefix, text, color)
-        Create("TextLabel", {
+        lineCounter = lineCounter + 1
+        
+        -- Gerçek ImGui metin yapısı (Sıkıştırılmış satır yüksekliği, Monospace font)
+        local LogLabel = Create("TextLabel", {
             Parent = Holder,
-            Size = UDim2.new(1,-6,0,18),
+            Size = UDim2.new(1, 0, 0, 0),
+            AutomaticSize = Enum.AutomaticSize.Y,
             BackgroundTransparency = 1,
-            Text = "[" .. getTime() .. "] " .. prefix .. " " .. tostring(text),
+            Text = string.format("[%s] [%s] %s", getTime(), prefix, tostring(text)),
             TextColor3 = color,
-            Font = Theme.Font,
-            TextSize = Theme.FontSize - 1,
-            TextXAlignment = Enum.TextXAlignment.Left
+            Font = Theme.Font, -- Kod içindeki 'Enum.Font.Code' yapısını kullanır
+            TextSize = Theme.FontSize - 2, -- Yazılar hafif küçük ve sıkı olur
+            TextXAlignment = Enum.TextXAlignment.Left,
+            TextWrapped = true,
+            RichText = true,
+            LayoutOrder = lineCounter
         })
 
+        table.insert(lines, LogLabel)
+
+        if #lines > config.MaxLines then
+            local oldLine = table.remove(lines, 1)
+            if oldLine then oldLine:Destroy() end
+        end
+
         task.defer(function()
-            Holder.CanvasPosition = Vector2.new(0, 999999)
+            if Holder then
+                Holder.CanvasPosition = Vector2.new(0, Holder.AbsoluteCanvasSize.Y)
+            end
         end)
     end
 
     function console:Log(text)
-        push("[INFO]", text, Theme.Text)
+        push("INFO", text, Theme.Text)
     end
 
     function console:Warn(text)
-        push("[WARN]", text, Color3.fromRGB(255,220,80))
+        push("WARN", text, Color3.fromRGB(230, 179, 51)) -- Klasik sönük sarı
     end
 
     function console:Error(text)
-        push("[ERROR]", text, Color3.fromRGB(255,90,90))
+        push("ERROR", text, Color3.fromRGB(212, 69, 69)) -- Klasik sönük kırmızı
     end
 
     function console:Clear()
-        for _, v in ipairs(Holder:GetChildren()) do
-            if v:IsA("TextLabel") then
-                v:Destroy()
-            end
+        for _, v in ipairs(lines) do
+            if v then v:Destroy() end
         end
+        table.clear(lines)
     end
 
     return console
 end
+
+
+
 --======================================================
 -- IMAGE (ImGui::Image)
 --======================================================
