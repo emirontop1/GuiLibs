@@ -1680,6 +1680,7 @@ if RunExample and _G.Example == true then
 
     local HelpBtn = Window:AddButton({ Text = "Yardım", Callback = function() end })
     Window:AddTooltip(HelpBtn, "Bu bir tooltip örneğidir")
+    local console = Window:AddConsole({ SeparateWindow = true, Title = "Debug Console", Height = 180})
 else
     print("loaded Gui")
 end
