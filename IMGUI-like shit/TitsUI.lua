@@ -108,8 +108,7 @@ function ImUI:CreateWindow(config)
     local title = config.Title or "Window"
 
     local existing = PlayerGui:FindFirstChild("ImStyleUI_Gui")
-    if existing then existing:Destroy() end
-
+    
     local ScreenGui = Create("ScreenGui", {
         Name = "ImStyleUI_Gui",
         Parent = PlayerGui,
