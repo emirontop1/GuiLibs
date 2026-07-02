@@ -6,7 +6,7 @@ Designed for exploit/executor environments with mobile and desktop support.
 ## Installation
 
 ```lua
-local TitsUI = loadstring(game:HttpGet("YOUR_RAW_LINK"))()
+local TitsUI = loadstring(game:HttpGet("https://raw.githubusercontent.com/emirontop1/TitsGUI/refs/heads/main/IMGUI-like%20shit/TitsUI.lua"))()
 ```
 
 ---
@@ -258,7 +258,7 @@ Parameters:
 # Full Example
 
 ```lua
-local TitsUI = loadstring(game:HttpGet("YOUR_RAW_LINK"))()
+local TitsUI = loadstring(game:HttpGet("https://raw.githubusercontent.com/emirontop1/TitsGUI/refs/heads/main/IMGUI-like%20shit/TitsUI.lua"))()
 
 local Window = TitsUI:CreateWindow({
     Title = "TitsUI Full Example"
