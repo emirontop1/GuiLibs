@@ -259,15 +259,146 @@ Parameters:
 
 ```lua
 local TitsUI = loadstring(game:HttpGet("YOUR_RAW_LINK"))()
-local Window = TitsUI:CreateWindow({Title="Demo"})
-Window:AddLabel("Hello")
-Window:AddButton({Text="Click", Callback=function() print("works") end})
-Window:AddSlider({
-    Text="Walkspeed",
-    Min=16,
-    Max=200,
-    Default=50
+
+local Window = TitsUI:CreateWindow({
+    Title = "TitsUI Full Example"
 })
+
+Window:AddLabel("Hello World")
+Window:AddSeparatorText("Basic Widgets")
+Window:AddSpacing(5)
+
+local helpBtn = Window:AddButton({
+    Text = "Click Me",
+    Callback = function()
+        print("clicked")
+    end
+})
+
+Window:AddTooltip(helpBtn, "This is a tooltip")
+
+Window:AddCheckbox({
+    Text = "Godmode",
+    Default = false,
+    Callback = function(v)
+        print("Checkbox:", v)
+    end
+})
+
+Window:AddToggle({
+    Text = "ESP",
+    Default = true,
+    Callback = function(v)
+        print("Toggle:", v)
+    end
+})
+
+Window:AddSlider({
+    Text = "Walkspeed",
+    Min = 16,
+    Max = 200,
+    Default = 50,
+    Callback = function(v)
+        print("Slider:", v)
+    end
+})
+
+Window:AddSeparator()
+
+Window:AddCombo({
+    Text = "Mode",
+    Options = {"Normal", "Rage", "Stealth"},
+    Default = "Normal",
+    Callback = function(v)
+        print("Combo:", v)
+    end
+})
+
+Window:AddInputText({
+    Text = "Username",
+    Placeholder = "Type here",
+    Callback = function(text)
+        print(text)
+    end
+})
+
+Window:AddInputNumber({
+    Text = "Damage",
+    Default = 50,
+    Step = 5,
+    Callback = function(v)
+        print(v)
+    end
+})
+
+Window:AddRadioButtons({
+    Text = "Team",
+    Options = {"Red", "Blue"},
+    Default = "Red",
+    Callback = function(v)
+        print(v)
+    end
+})
+
+local progress = Window:AddProgressBar({
+    Text = "Loading",
+    Default = 0.25
+})
+
+progress:Set(0.75)
+
+Window:AddColorPicker({
+    Text = "Accent Color",
+    Default = Color3.fromRGB(255,0,0),
+    Callback = function(color)
+        print(color)
+    end
+})
+
+Window:AddKeybind({
+    Text = "Menu Key",
+    Default = Enum.KeyCode.RightShift,
+    Callback = function()
+        print("Keybind pressed")
+    end
+})
+
+local node = Window:AddTreeNode({
+    Text = "Advanced Settings",
+    DefaultOpen = false
+})
+
+node:AddLabel("Hidden content")
+node:AddButton({
+    Text = "Secret Button",
+    Callback = function()
+        print("secret")
+    end
+})
+
+local Tabs = Window:AddTabBar({
+    "Main",
+    "Settings",
+    "Info"
+})
+
+Tabs.Tab("Main"):AddLabel("Main Tab")
+Tabs.Tab("Settings"):AddLabel("Settings Tab")
+Tabs.Tab("Info"):AddLabel("Info Tab")
+
+Window:AddImage({
+    Image = "rbxassetid://7072718362",
+    Height = 100
+})
+
+if workspace:FindFirstChild("Dummy") then
+    Window:Add3DView({
+        Model = workspace.Dummy,
+        Height = 200,
+        AutoRotate = true,
+        RotateSpeed = 40
+    })
+end
 ```
 
 ---
@@ -277,3 +408,4 @@ Window:AddSlider({
 - Opening a new window destroys the previous one.
 - GUI Name: `ImStyleUI_Gui`
 - Exported Object: `ImUI`
+- 
