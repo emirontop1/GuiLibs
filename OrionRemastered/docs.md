@@ -96,13 +96,7 @@ MainTab:AddTextbox({
     end 
 })
 
-MainTab:AddColorpicker({ 
-    Name = "Color Picker", 
-    Default = Color3.fromRGB(255, 0, 0), 
-    Callback = function(color) 
-        print("Selected color:", color) 
-    end 
-})
+
 
 -- Startup Notification
 print("✅ ORIONRecontinued is running! Resize, Textbox, and Colorpicker have been fixed.")
