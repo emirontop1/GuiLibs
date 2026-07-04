@@ -7,98 +7,128 @@
 
 local OrionLib = loadstring(game:HttpGet('https://raw.githubusercontent.com/emirontop1/TitsGUI/refs/heads/main/OrionRemastered/Source.lua'))()
 
-local Window = OrionLib:MakeWindow({
-    Name = "ORIONRecontinued",
-    IntroEnabled = true,
-    IntroText = "ORIONRecontinued",
-    SaveConfig = false,
-    Anonymous = true,
+
+
+-- ============================================================
+-- KULLANIM ÖRNEĞİ
+-- ============================================================
+local Win = OrionLib:MakeWindow({
+	Name = "OrionRemastered",
+	ConfigFolder = "OrionTest",
+	SaveConfig = true,
+	IntroEnabled = true,
+	IntroText = "OrionRemastered",
+	Gradient = {
+		Color3.fromRGB(15, 15, 30),
+		Color3.fromRGB(40, 40, 65),
+		Color3.fromRGB(15, 15, 30)
+	},
+	ShowIcon = true,
+	Icon = "rbxassetid://8834748103",
+	CloseCallback = function()
+		print("Closed Window")
+	end
 })
 
--- =============================================================================
--- SETTINGS TAB
--- =============================================================================
-local SettingsTab = Window:MakeTab({ Name = "Settings", Icon = "settings" })
-
-SettingsTab:AddToggle({
-    Name = "Anonymous Mode",
-    Default = true,
-    Callback = function(state)
-        OrionLib:SetAnonymous(state)
-    end,
-    Flag = "Anonymous",
-    Save = false
+local AnaTab = Win:MakeTab({
+	Name = "Home",
+	Icon = "home"
 })
 
--- =============================================================================
--- MAIN TAB
--- =============================================================================
-local MainTab = Window:MakeTab({ Name = "Main", Icon = "home" })
-
-MainTab:AddLabel("Hello! ORIONRecontinued is running.")
-
-MainTab:AddButton({
-    Name = "Click Me",
-    Callback = function() 
-        print("Button clicked!") 
-    end 
+local AyarlarTab = Win:MakeTab({
+	Name = "Settings",
+	Icon = "settings"
 })
 
-MainTab:AddToggle({ 
-    Name = "Toggle", 
-    Default = true, 
-    Callback = function(value) 
-        print("Toggle value:", value) 
-    end 
+AnaTab:AddLabel("⭐ Welcome)
+AnaTab:AddButton({
+	Name = "Click Me",
+	Callback = function()
+		print("Clicked Button")
+		OrionLib:MakeNotification({
+			Name = "Clicked",
+			Content = "Successfully clicked Button.",
+			Time = 3
+		})
+	end
 })
 
-MainTab:AddSlider({ 
-    Name = "Slider", 
-    Min = 0, 
-    Max = 100, 
-    Default = 50, 
-    Callback = function(value) 
-        print("Slider value:", value) 
-    end 
+AnaTab:AddToggle({
+	Name = "Example Toggle",
+	Default = true,
+	Callback = function(v) print("Toggle:", v) end,
+	Flag = "toggle_test",
+	Save = true
 })
 
-MainTab:AddDropdown({ 
-    Name = "Dropdown", 
-    Options = {"A", "B", "C"}, 
-    Default = "A", 
-    Callback = function(value) 
-        print("Selected option:", value) 
-    end 
+AnaTab:AddSlider({
+	Name = "Example Slider",
+	Min = 0,
+	Max = 100,
+	Default = 50,
+	Increment = 5,
+	ValueName = "%",
+	Callback = function(v) print("Slider:", v) end,
+	Flag = "slider_test",
+	Save = true
 })
 
-MainTab:AddMultiDropdown({ 
-    Name = "Multi Dropdown", 
-    Options = {"X", "Y", "Z"}, 
-    Default = {"X"}, 
-    Callback = function(value) 
-        print("Selected multi options:", table.concat(value, ", ")) 
-    end 
+AnaTab:AddDropdown({
+	Name = "Example Dropdown",
+	Options = {"Choice 1", "Choice 2", "Choice 3"},
+	Default = "Seçenek 2",
+	Callback = function(v) print("Dropdown:", v) end,
+	Flag = "dropdown_test",
+	Save = true
 })
 
-MainTab:AddBind({ 
-    Name = "Keybind", 
-    Default = Enum.KeyCode.F, 
-    Callback = function() 
-        print("Keybind triggered!") 
-    end 
+AnaTab:AddMultiDropdown({
+	Name = "Multi Select",
+	Options = {"A", "B", "C", "D"},
+	Default = {"A", "C"},
+	Callback = function(v) print("Multi:", table.concat(v, ", ")) end,
+	Flag = "multi_test",
+	Save = true
 })
 
-MainTab:AddTextbox({ 
-    Name = "Textbox", 
-    Default = "Prevent long text from overflowing", 
-    Callback = function(value) 
-        print("Textbox input:", value) 
-    end 
+AnaTab:AddBind({
+	Name = "Kısayol",
+	Default = Enum.KeyCode.O,
+	Hold = false,
+	Callback = function() print("Bind Activated ") end,
+	Flag = "bind_test",
+	Save = true
 })
 
+AnaTab:AddTextbox({
+	Name = " Example Text disappear Textbox",
+	Default = "Normal Text",
+	TextDisappear = true,
+	Callback = function(txt) print("Textbox:", txt) end
+})
 
+AnaTab:AddTextbox({
+	Name = " Example Textbox",
+	Default = "Normal Text",
+	TextDisappear = false,
+	Callback = function(txt) print("Textbox:", txt) end
+})
 
--- Startup Notification
-print("✅ ORIONRecontinued is running! Resize, Textbox, and Colorpicker have been fixed.")
+AyarlarTab:AddLabel("⚙️ Settings Section)
+AyarlarTab:AddButton({
+	Name = "Choice  1",
+	Callback = function() print("Choice 1") end
+})
+AyarlarTab:AddButton({
+	Name = "Choice 2",
+	Callback = function() print("Choice 2") end
+})
 
+--[[
+task.wait(2)
+
+task.wait(2)
+Win:SelectTab("Ana")
+Win:GotoElement("Ana", 4)
+]]-- it works but i dont wanna try it
 ```
