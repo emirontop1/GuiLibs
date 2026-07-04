@@ -29,7 +29,7 @@ A remastered version of Orion UI.
 🔗 Original Repository: [**jensonhirst/Orion**](https://github.com/jensonhirst/Orion)
 
 👤 Original Author: [**jensonhirst**](https://github.com/jensonhirst)
-
+---
 
 Exuman
 
