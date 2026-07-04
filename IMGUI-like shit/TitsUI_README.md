@@ -6,13 +6,13 @@ Designed for exploit/executor environments with mobile and desktop support.
 ## Installation
 
 ```lua
-local TitsUI = loadstring(game:HttpGet("https://raw.githubusercontent.com/emirontop1/TitsGUI/refs/heads/main/IMGUI-like%20shit/TitsUI.lua"))()
+local TitsUI = loadstring(game:HttpGet("https://raw.githubusercontent.com/emirontop1/GuiLibs/refs/heads/main/IMGUI-like%20shit/TitsUI.lua"))()
 ```
 
 ## Load Build-in Example
 ```lua
 _G.Example = true
-local TitsUI = loadstring(game:HttpGet("https://raw.githubusercontent.com/emirontop1/TitsGUI/refs/heads/main/IMGUI-like%20shit/TitsUI.lua"))()
+local TitsUI = loadstring(game:HttpGet("https://raw.githubusercontent.com/emirontop1/GuiLibs/refs/heads/main/IMGUI-like%20shit/TitsUI.lua"))()
 ```
 ---
 
@@ -270,7 +270,7 @@ Parameters:
 # Full Example
 
 ```lua
-local TitsUI = loadstring(game:HttpGet("https://raw.githubusercontent.com/emirontop1/TitsGUI/refs/heads/main/IMGUI-like%20shit/TitsUI.lua"))()
+local TitsUI = loadstring(game:HttpGet("https://raw.githubusercontent.com/emirontop1/GuiLibs/refs/heads/main/IMGUI-like%20shit/TitsUI.lua"))()
 
 local Window = TitsUI:CreateWindow({
     Title = "TitsUI Full Example"
