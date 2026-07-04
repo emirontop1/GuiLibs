@@ -1,6 +1,6 @@
 ```lua
 --// Say wallahi bismillah bro...
-local PremiumLib = loadstring(game:HttpGet("https://raw.githubusercontent.com/emirontop1/TitsGUI/refs/heads/main/Vortex/Vortex.lua"))()
+local PremiumLib = loadstring(game:HttpGet("https://raw.githubusercontent.com/emirontop1/GuiLibs/refs/heads/main/Vortex/Vortex.lua"))()
 -- veya: local PremiumLib = require(path.to.PremiumLib)
 
 local Window = PremiumLib.CreateWindow(
