@@ -1949,11 +1949,7 @@ function OrionLib:MakeWindow(WindowConfig)
 		Close = function(self)
 			MainWindow.Visible = false
 			UIHidden = true
-			OrionLib:MakeNotification({
-				Name = "Interface Hidden",
-				Content = "Tap RightShift to reopen, sorry for not supporting Mobile.",
-				Time = 5
-			})
+			ResizeHandle:Destroy()
 			WindowConfig.CloseCallback()
 		end,
 		Show = function(self)
