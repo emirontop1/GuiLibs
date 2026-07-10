@@ -1951,7 +1951,7 @@ function OrionLib:MakeWindow(WindowConfig)
 			UIHidden = true
 			OrionLib:MakeNotification({
 				Name = "Interface Hidden",
-				Content = "Tap RightShift to reopen",
+				Content = "Tap RightShift to reopen, sorry for not supporting Mobile.",
 				Time = 5
 			})
 			WindowConfig.CloseCallback()
@@ -1967,13 +1967,6 @@ function OrionLib:MakeWindow(WindowConfig)
 			return GetAvailableTabs()
 		end,
 	}
-
-	OrionLib:MakeNotification({
-		Name = "UI Library Upgrade",
-		Content = "New UI Library Available at sirius.menu/discord and sirius.menu/rayfield",
-		Time = 5
-	})
-	
 	return WindowObject
 end   
 
